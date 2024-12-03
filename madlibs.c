@@ -26,6 +26,7 @@ int main (){
 		return 0;
 	}
 	
+	//Ignore this following code it just shows the number of lines in the file
 	lines = linenumberer(fp);
 	printf("%d", lines);
 	
@@ -35,11 +36,12 @@ int main (){
 
 }
 
+//Following function returns the number of lines in a file
 int linenumberer(FILE* fp)
 {
-	char *stuff[SIZE];
+	char stuff[SIZE];
 	int counter = 0;
-	while (fgets(*stuff, SIZE, fp) != "\n")
+	while(fgets(stuff, SIZE, fp) != NULL)
 	{
 		counter++;
 	}
