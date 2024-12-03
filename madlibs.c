@@ -79,9 +79,9 @@ int lineNumberer(FILE* fptr)
 //The following function reads the file and stores the type of input requested in a string:
 void readFile(FILE* fptr, int numL, char letterHolder[])
 {
-	for(int i = 0; i < numL/2; i++)
+	for(int i = 0; i < numL / 2; i++)
 	{
-		scanf("%c", &letterHolder[i]);
-		printf("%c\n", letterHolder[i]);
+		printf("Enter a character: ");
+		scanf("%c ", &letterHolder[i]);
 	} 
 }
