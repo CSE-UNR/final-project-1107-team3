@@ -15,18 +15,34 @@
 
 
 /* Function prototypes: */
-int lineNumberer(FILE* fp);
+int lineNumberer(FILE*);
+void readFile(FILE*, int, char*);
 
 
 /* Main function: */
 int main()
 {
 	char letterHolder[SIZE];
-	int lines;
+	int lines, f;
 
 	FILE *fp;
 	
-	fp = fopen(FILE_LIBS1, "r");
+	//This isnt in the executable but will be useful for us
+	printf("Which file(1 or 2): ");
+	scanf("%d", &f);
+	
+	if(f == 1)
+	{
+		fp = fopen(FILE_LIBS1, "r");
+	}
+	else if(f == 2)
+	{
+		fp = fopen(FILE_LIBS2, "r");
+	}
+	else
+	{
+		return 0;
+	}
 	
 	if(fp == NULL)
 	{
@@ -38,6 +54,8 @@ int main()
 	lines = lineNumberer(fp);
 	printf("%d\n", lines);
 	
+	readFile(fp, lines, letterHolder);
+	
 	fclose(fp);
 	return 0;
 }
@@ -46,14 +64,24 @@ int main()
 /* Function definitions: */
 
 //The following function returns the number of lines in a file:
-int lineNumberer(FILE* fp)
+int lineNumberer(FILE* fptr)
 {
 	char stuff[SIZE];
 	int counter = 0;
 	
-	while(fgets(stuff, SIZE, fp) != NULL)
+	while(fgets(stuff, SIZE, fptr) != NULL)
 	{
 		counter++;
 	}
 	return counter;
+}
+
+//The following function reads the file and stores the type of input requested in a string:
+void readFile(FILE* fptr, int numL, char letterHolder[])
+{
+	for(int i = 0; i < numL/2; i++)
+	{
+		scanf("%c", &letterHolder[i]);
+		printf("%c\n", letterHolder[i]);
+	} 
 }
