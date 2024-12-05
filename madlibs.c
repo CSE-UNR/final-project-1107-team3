@@ -15,9 +15,10 @@
 
 
 /* Function prototypes: */
-int lineNumberer(FILE*);
-void readFile(FILE*, int, char*);
-
+int lineNumberer(FILE* fp);
+void readFile(FILE*, char*);
+void promptU(FILE* fptr, int evens, char letterHolder[], char userInput[][SIZE]);
+void modUI(FILE* fptr, int lines, char userInput[][SIZE], char finalStory[][SIZE]);
 
 /* Main function: */
 int main()
@@ -53,8 +54,80 @@ int main()
 	//Ignore this following code it just shows the number of lines in the file
 	lines = lineNumberer(fp);
 	printf("%d\n", lines);
+	fclose(fp);
+	if(f == 1)
+	{
+		fp = fopen(FILE_LIBS1, "r");
+	}
+	else if(f == 2)
+	{
+		fp = fopen(FILE_LIBS2, "r");
+	}
+	else
+	{
+		return 0;
+	}
 	
-	readFile(fp, lines, letterHolder);
+	if(fp == NULL)
+	{
+		printf("File could not open.");
+		return 0;
+	}
+	
+	//Reads from file and stores the files char on each even line 
+	readFile(fp, letterHolder);
+	fclose(fp);
+	if(f == 1)
+	{
+		fp = fopen(FILE_LIBS1, "r");
+	}
+	else if(f == 2)
+	{
+		fp = fopen(FILE_LIBS2, "r");
+	}
+	else
+	{
+		return 0;
+	}
+	
+	if(fp == NULL)
+	{
+		printf("File could not open.");
+		return 0;
+	}
+	
+	int even = lines / 2;
+	even--;
+	char userInput[even][SIZE];
+	promptU(fp, even, letterHolder, userInput);
+	fclose(fp);
+	if(f == 1)
+	{
+		fp = fopen(FILE_LIBS1, "r");
+	}
+	else if(f == 2)
+	{
+		fp = fopen(FILE_LIBS2, "r");
+	}
+	else
+	{
+		return 0;
+	}
+	
+	if(fp == NULL)
+	{
+		printf("File could not open.");
+		return 0;
+	}
+	
+	char finalStory[lines][SIZE];
+	modUI(fp, lines, userInput, finalStory);
+	
+	
+	
+	
+	
+	
 	
 	fclose(fp);
 	return 0;
@@ -73,15 +146,64 @@ int lineNumberer(FILE* fptr)
 	{
 		counter++;
 	}
+	
 	return counter;
 }
 
 //The following function reads the file and stores the type of input requested in a string:
-void readFile(FILE* fptr, int numL, char letterHolder[])
+void readFile(FILE* fptr, char letterHolder[])
 {
-	for(int i = 0; i < numL / 2; i++)
+	char stuff[SIZE];
+	int counter = 0;
+	
+	while(fgets(stuff, SIZE, fptr) != NULL)
 	{
-		printf("Enter a character: ");
-		scanf("%c ", &letterHolder[i]);
-	} 
+		fgets(stuff, SIZE, fptr);
+		letterHolder[counter] = stuff[0];
+		counter++;
+	}
 }
+
+void promptU(FILE* fptr, int evens, char letterHolder[], char userInput[][SIZE])
+{
+	for(int i = 0; i < evens; i++)
+	{
+		if(letterHolder[i] == 'A')
+		{
+			printf("Please enter an adjective: ");
+			scanf("%s", &userInput[i]);
+		}
+		else if(letterHolder[i] == 'N')
+		{
+			printf("Please enter an noun: ");
+			scanf("%s", &userInput[i]);
+		}
+		else if(letterHolder[i] == 'V')
+		{
+			printf("Please enter an verb: ");
+			scanf("%s", &userInput[i]);
+		}
+		else
+		{
+			//TEST CHANGE LATER
+			printf("SHIT WACK");
+		}
+		printf("%s\n", userInput[i]);
+	}
+}
+
+void modUI(FILE* fptr, int lines, char userInput[][SIZE], char finalStory[][SIZE])
+{
+	char stuff[SIZE];
+	int counter = 0;
+	
+	while(fgets(stuff, SIZE, fptr) != NULL)
+	{
+		printf("%s", stuff);
+		finalStory[counter] = stuff[counter];
+		printf("%s", finalStory[counter]);
+		counter++;
+	}
+	
+}
+
