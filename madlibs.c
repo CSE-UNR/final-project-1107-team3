@@ -20,6 +20,7 @@ void readFile(FILE*, char*);
 void promptU(FILE* fptr, int evens, char letterHolder[], char userInput[][SIZE]);
 void modUI(FILE* fptr, int lines, char userInput[][SIZE], char finalStory[][SIZE]);
 
+
 /* Main function: */
 int main()
 {
@@ -97,8 +98,11 @@ int main()
 	}
 	
 	int even = lines / 2;
+	
 	even--;
+	
 	char userInput[even][SIZE];
+	
 	promptU(fp, even, letterHolder, userInput);
 	fclose(fp);
 	if(f == 1)
@@ -197,13 +201,10 @@ void modUI(FILE* fptr, int lines, char userInput[][SIZE], char finalStory[][SIZE
 	char stuff[SIZE];
 	int counter = 0;
 	
-	while(fgets(stuff, SIZE, fptr) != NULL)
+	for(int i = 0; i < lines; i++)
 	{
-		printf("%s", stuff);
-		finalStory[counter] = stuff[counter];
-		printf("%s", finalStory[counter]);
-		counter++;
+		fgets(finalStory[i], SIZE, fptr);
 	}
-	
+	//printf("%s",finalStory[]);
 }
 
