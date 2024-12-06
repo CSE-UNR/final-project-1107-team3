@@ -5,21 +5,19 @@
  * Purpose: Use all previous knowledge of C to create the game Mad Libs.*
  ************************************************************************/
 
-
 /* Preprocessor directives: */
 #include <stdio.h>
 #include <stdbool.h>
 #define FILE_LIBS1 "madlib1.txt"
 #define FILE_LIBS2 "madlib2.txt"
-#define SIZE 100
-
+#define SIZE 500
 
 /* Function prototypes: */
 int lineNumberer(FILE* fp);
 void readFile(FILE*, char*);
 void promptU(FILE* fptr, int evens, char letterHolder[], char userInput[][SIZE]);
 void modUI(FILE* fptr, int lines, char userInput[][SIZE], char finalStory[][SIZE]);
-
+int getuserinputSize(char userInput[][SIZE], int counter);
 
 /* Main function: */
 int main()
@@ -127,12 +125,6 @@ int main()
 	char finalStory[lines][SIZE];
 	modUI(fp, lines, userInput, finalStory);
 	
-	
-	
-	
-	
-	
-	
 	fclose(fp);
 	return 0;
 }
@@ -168,6 +160,7 @@ void readFile(FILE* fptr, char letterHolder[])
 	}
 }
 
+//Following function prompts and stores the userinput into an array
 void promptU(FILE* fptr, int evens, char letterHolder[], char userInput[][SIZE])
 {
 	for(int i = 0; i < evens; i++)
@@ -196,6 +189,19 @@ void promptU(FILE* fptr, int evens, char letterHolder[], char userInput[][SIZE])
 	}
 }
 
+//The following function gets the size of the userinputted string
+int getuserinputSize(char userInput[][SIZE], int counter)
+{
+	int count = 0;
+	for(int j = 0; userInput[counter][j] != '\0'; j++)
+	{
+		count++;
+	}
+	return count;
+}
+
+//The following function assigns the userInput array into the position
+//of the finalStory array
 void modUI(FILE* fptr, int lines, char userInput[][SIZE], char finalStory[][SIZE])
 {
 	char stuff[SIZE];
@@ -205,6 +211,25 @@ void modUI(FILE* fptr, int lines, char userInput[][SIZE], char finalStory[][SIZE
 	{
 		fgets(finalStory[i], SIZE, fptr);
 	}
-	//printf("%s",finalStory[]);
+	
+	for(int j = 0; j < lines; j++)
+	{
+		if ((j % 2) != 0)
+		{
+			for(int l = 0; l < getuserinputSize(userInput, counter); l++)
+			{
+				finalStory[j][l] = userInput[counter][l];
+			}
+			finalStory[j][getuserinputSize(userInput, counter)] = '\0';
+			counter++;
+		}
+	}
+	
+	//The following below is just for seeing it. Get rid of later
+	for(int m = 0; m < (lines - 1); m++)
+	{
+		printf("%s", finalStory[m]);
+	}
+	
 }
 
