@@ -18,6 +18,8 @@ void readFile(FILE*, char*);
 void promptU(FILE* fptr, int evens, char letterHolder[], char userInput[][SIZE]);
 void modUI(FILE* fptr, int lines, char userInput[][SIZE], char finalStory[][SIZE]);
 int getuserinputSize(char userInput[][SIZE], int counter);
+int filelinecount(char finalStory[][SIZE], int index);
+void display(int lines, char finalStory[][SIZE]);
 
 /* Main function: */
 int main()
@@ -28,8 +30,9 @@ int main()
 	FILE *fp;
 	
 	//This isnt in the executable but will be useful for us
-	printf("Which file(1 or 2): ");
+	printf("Choose a MadLib Story :) (1 or 2): ");
 	scanf("%d", &f);
+	printf("\n");
 	
 	if(f == 1)
 	{
@@ -50,9 +53,9 @@ int main()
 		return 0;
 	}
 	
-	//Ignore this following code it just shows the number of lines in the file
+	
 	lines = lineNumberer(fp);
-	printf("%d\n", lines);
+	
 	fclose(fp);
 	if(f == 1)
 	{
@@ -182,18 +185,16 @@ void promptU(FILE* fptr, int evens, char letterHolder[], char userInput[][SIZE])
 		}
 		else
 		{
-			//TEST CHANGE LATER
-			printf("SHIT WACK");
+			printf("ERROR");
 		}
-		printf("%s\n", userInput[i]);
 	}
 }
 
 //The following function gets the size of the userinputted string
-int getuserinputSize(char userInput[][SIZE], int counter)
+int getuserinputSize(char input[][SIZE], int counter)
 {
 	int count = 0;
-	for(int j = 0; userInput[counter][j] != '\0'; j++)
+	for(int j = 0; input[counter][j] != '\0'; j++)
 	{
 		count++;
 	}
@@ -224,12 +225,70 @@ void modUI(FILE* fptr, int lines, char userInput[][SIZE], char finalStory[][SIZE
 			counter++;
 		}
 	}
-	
-	//The following below is just for seeing it. Get rid of later
-	for(int m = 0; m < (lines - 1); m++)
+	display(lines, finalStory);
+}
+
+//The following function return the size of a specific index in an array
+int filelinecount(char finalStory[][SIZE], int index)
+{
+	int counter = 0;
+	while(finalStory[index][counter] != '\0')
 	{
-		printf("%s", finalStory[m]);
+		counter++;
 	}
-	
+	return counter;
+}
+
+//The following function formats the finalarray and prints it out to the terminal
+void display(int lines, char final[][SIZE])
+{
+	int count = 0;
+	char check[4] = {'.', ',', '!', '?'};
+	printf("\n----------Final-Story----------\n");
+	bool space = true;
+	bool pre = true;
+	bool aft = true;
+	for(int i = 0; i < (lines - 1); i++)
+	{
+		for(int j = 0; j < (filelinecount(final, i)); j++)
+		{
+			if((i % 2) != 0)
+			{
+				for(int k = 0; k < 4; k++)
+				{
+					if((final[i + 1][0] == check[k]) && (j == (filelinecount(final, i) - 1)))
+					{
+						pre = false;
+						aft = false;
+					}
+				}
+				if ((space == true)&&(pre == true))
+				{
+					printf(" ");
+					space = false;
+				}
+				printf("%c", final[i][j]);
+				
+			}
+			else
+			{	
+				if ((space == false)&&(pre == true))
+				{
+					if((aft == true))
+					{
+						printf(" ");
+						space = true;
+					}
+				}
+				if(j != (filelinecount(final, i) - 1))
+				{
+					printf("%c", final[i][j]);
+				}
+				pre = true;
+				aft = true;
+			}
+		}
+	}
+	printf("\n");
 }
 
