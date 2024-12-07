@@ -243,11 +243,11 @@ int filelinecount(char finalStory[][SIZE], int index)
 void display(int lines, char final[][SIZE])
 {
 	int count = 0;
-	char check[4] = {'.', ',', '!', '?'};
+	char check[5] = {'.', ',', '!', '?'};
 	printf("\n----------Final-Story----------\n");
-	bool space = true;
-	bool pre = true;
-	bool aft = true;
+	bool space = false;
+	bool pre = false;
+	
 	for(int i = 0; i < (lines - 1); i++)
 	{
 		for(int j = 0; j < (filelinecount(final, i)); j++)
@@ -258,37 +258,37 @@ void display(int lines, char final[][SIZE])
 				{
 					if((final[i + 1][0] == check[k]) && (j == (filelinecount(final, i) - 1)))
 					{
-						pre = false;
-						aft = false;
+						pre = true;
 					}
 				}
-				if ((space == true)&&(pre == true))
+				if (pre == true)
 				{
-					printf(" ");
-					space = false;
+					pre = false;
+					printf("%c", final[i][j]);
 				}
-				printf("%c", final[i][j]);
-				
+				else if (j == (filelinecount(final, i) - 1))
+				{
+					printf("%c", final[i][j]);
+					printf(" ");
+				}
+				else 
+				{
+					printf("%c", final[i][j]);
+					space = true;
+				}
 			}
 			else
 			{	
-				if ((space == false)&&(pre == true))
-				{
-					if((aft == true))
-					{
-						printf(" ");
-						space = true;
-					}
-				}
 				if(j != (filelinecount(final, i) - 1))
 				{
 					printf("%c", final[i][j]);
 				}
-				pre = true;
-				aft = true;
+				else if (j == (filelinecount(final, i) - 1))
+				{
+					printf(" ");
+				}
 			}
 		}
 	}
 	printf("\n");
 }
-
