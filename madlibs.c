@@ -168,23 +168,21 @@ void promptU(FILE* fptr, int evens, char letterHolder[], char userInput[][SIZE])
 {
 	for(int i = 0; i < evens; i++)
 	{
-		if(letterHolder[i] == 'A')
+		switch(letterHolder[i])
 		{
+		case 'A':
 			printf("Please enter an adjective: ");
 			scanf("%s", &userInput[i]);
-		}
-		else if(letterHolder[i] == 'N')
-		{
+			break;
+		case 'N':
 			printf("Please enter an noun: ");
 			scanf("%s", &userInput[i]);
-		}
-		else if(letterHolder[i] == 'V')
-		{
+			break;
+		case 'V':
 			printf("Please enter an verb: ");
 			scanf("%s", &userInput[i]);
-		}
-		else
-		{
+			break;
+		default :
 			printf("ERROR");
 		}
 	}
@@ -243,7 +241,7 @@ int filelinecount(char finalStory[][SIZE], int index)
 void display(int lines, char final[][SIZE])
 {
 	int count = 0;
-	char check[5] = {'.', ',', '!', '?'};
+	char check[4] = {'.', ',', '!', '?'};
 	printf("\n----------Final-Story----------\n");
 	bool space = false;
 	bool pre = false;
