@@ -8,8 +8,6 @@
 /* Preprocessor directives: */
 #include <stdio.h>
 #include <stdbool.h>
-#define FILE_LIBS1 "madlib1.txt"
-#define FILE_LIBS2 "madlib2.txt"
 #define SIZE 500
 
 /* Function prototypes: */
@@ -22,34 +20,18 @@ int filelinecount(char finalStory[][SIZE], int index);
 void display(int lines, char finalStory[][SIZE]);
 
 /* Main function: */
-int main()
+int main(int argc, char* argv[])
 {
 	char letterHolder[SIZE];
-	int lines, f;
+	int lines;
 
 	FILE *fp;
 	
-	//This isnt in the executable but will be useful for us
-	printf("Choose a MadLib Story :) (1 or 2): ");
-	scanf("%d", &f);
-	printf("\n");
-	
-	if(f == 1)
-	{
-		fp = fopen(FILE_LIBS1, "r");
-	}
-	else if(f == 2)
-	{
-		fp = fopen(FILE_LIBS2, "r");
-	}
-	else
-	{
-		return 0;
-	}
+	fp = fopen(argv[1], "r");
 	
 	if(fp == NULL)
 	{
-		printf("File could not open.");
+		printf("File could not open.\n");
 		return 0;
 	}
 	
@@ -57,44 +39,22 @@ int main()
 	lines = lineNumberer(fp);
 	
 	fclose(fp);
-	if(f == 1)
-	{
-		fp = fopen(FILE_LIBS1, "r");
-	}
-	else if(f == 2)
-	{
-		fp = fopen(FILE_LIBS2, "r");
-	}
-	else
-	{
-		return 0;
-	}
+	fp = fopen(argv[1], "r");
 	
 	if(fp == NULL)
 	{
-		printf("File could not open.");
+		printf("File could not open.\n");
 		return 0;
 	}
 	
 	//Reads from file and stores the files char on each even line 
 	readFile(fp, letterHolder);
 	fclose(fp);
-	if(f == 1)
-	{
-		fp = fopen(FILE_LIBS1, "r");
-	}
-	else if(f == 2)
-	{
-		fp = fopen(FILE_LIBS2, "r");
-	}
-	else
-	{
-		return 0;
-	}
+	fp = fopen(argv[1], "r");
 	
 	if(fp == NULL)
 	{
-		printf("File could not open.");
+		printf("File could not open.\n");
 		return 0;
 	}
 	
@@ -106,22 +66,11 @@ int main()
 	
 	promptU(fp, even, letterHolder, userInput);
 	fclose(fp);
-	if(f == 1)
-	{
-		fp = fopen(FILE_LIBS1, "r");
-	}
-	else if(f == 2)
-	{
-		fp = fopen(FILE_LIBS2, "r");
-	}
-	else
-	{
-		return 0;
-	}
+	fp = fopen(argv[1], "r");
 	
 	if(fp == NULL)
 	{
-		printf("File could not open.");
+		printf("File could not open.\n");
 		return 0;
 	}
 	
